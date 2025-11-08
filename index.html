@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tadoba Safari Stay — Luxury Wildlife Resort by Nature’s Sprout</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sand: "#f5efe6",
+            dunes: "#efe7dc",
+            gold: "#c6a279",
+            goldDeep: "#a9885f",
+            earth: "#5c4a32",
+            bark: "#3c2f22",
+            jungle: "#2d3a2a",
+            moss: "#44533f",
+          },
+          boxShadow: {
+            luxe: "0 20px 50px rgba(0,0,0,0.18)",
+            soft: "0 8px 24px rgba(0,0,0,0.10)",
+          },
+          fontFamily: {
+            inter: ["Inter", "system-ui", "sans-serif"],
+            playfair: ["Playfair Display", "serif"],
+          },
+          backgroundImage: {
+            "leaf-noise":
+              "url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1920&auto=format&fit=crop')",
+            "leaf-overlay":
+              "url('https://images.unsplash.com/photo-1528821154947-1aa3d1a0741c?q=80&w=1920&auto=format&fit=crop')",
+            "texture":
+              "url('https://www.transparenttextures.com/patterns/paper-1.png')",
+          }
+        }
+      }
+    }
+  </script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root {
+      --twc-snap: cubic-bezier(.22,1,.36,1);
+    }
+    * { font-family: 'Inter', sans-serif; }
+    .playfair { font-family: 'Playfair Display', serif; }
+
+    /* Premium motion */
+    .fade-up { opacity: 0; transform: translateY(18px); transition: all .7s var(--twc-snap); }
+    .fade-up.show { opacity: 1; transform: translateY(0); }
+    .card-hover { transition: transform .4s var(--twc-snap), box-shadow .4s var(--twc-snap); }
+    .card-hover:hover { transform: translateY(-6px) scale(1.01); box-shadow: 0 22px 40px rgba(0,0,0,.18); }
+
+    /* Tabs */
+    .tab-btn {
+      position: relative;
+      transition: color .3s ease;
+      font-family: 'Playfair Display', serif; /* Use serif font from image */
+      font-weight: 700; /* Bold, like image */
+      font-size: 1.125rem; /* text-lg */
+      color: #3c2f22; /* bark */
+      padding-bottom: 1rem; /* pb-4 */
+    }
+    .tab-btn:hover {
+      color: #5c4a32; /* earth */
+    }
+    .tab-btn.active {
+      color: #5c4a32; /* earth - active color from image */
+    }
+    .tab-btn.active::after {
+      content: "";
+      position: absolute;
+      bottom: -1px; /* Sits on top of the container's border */
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px; /* Short, fixed-width underline */
+      height: 4px; /* Thicker, like image */
+      background-color: #5c4a32; /* earth */
+    }
+
+    /* Modal base */
+    .modal { display: none; position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,.6); }
+    .modal.show { display: flex; align-items: center; justify-content: center; }
+  </style>
+</head>
+
+<body class="bg-sand text-bark">
+  <div class="hidden md:block bg-jungle text-sand text-sm">
+    <div class="max-w-7xl mx-auto px-6 py-2 flex items-center justify-between">
+      <div class="flex items-center gap-6 opacity-90">
+        <span><i class="fa-solid fa-location-dot mr-2"></i>Tadoba-Andhari Tiger Reserve, Maharashtra</span>
+        <span><i class="fa-solid fa-phone mr-2"></i>+91 90962 33360</span>
+        <span class="hidden lg:inline"><i class="fa-solid fa-envelope mr-2"></i>bookings@naturessprout.com</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="#" class="hover:text-gold transition"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="hover:text-gold transition"><i class="fab fa-facebook"></i></a>
+        <a href="#" class="hover:text-gold transition"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <nav class="sticky top-0 z-50 bg-white/85 backdrop-blur border-b border-dunes">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="h-16 flex items-center justify-between">
+        <a href="#" class="flex items-center gap-3 group">
+          <span class="w-11 h-11 rounded-full bg-gradient-to-br from-jungle to-moss grid place-items-center shadow-soft">
+            <i class="fa-solid fa-paw text-sand"></i>
+          </span>
+          <div>
+            <div class="playfair text-xl font-bold tracking-wide text-bark group-hover:text-jungle transition">Tadoba Safari Stay</div>
+            <div class="text-[11px] uppercase tracking-[0.2em] text-moss/80">by Nature’s Sprout</div>
+          </div>
+        </a>
+
+        <div class="hidden md:flex items-center gap-1">
+          <a href="#overview" class="px-4 py-2 text-sm font-semibold text-bark/80 hover:text-jungle transition">Overview</a>
+          <a href="#rooms" class="px-4 py-2 text-sm font-semibold text-bark/80 hover:text-jungle transition">Rooms</a>
+          <a href="#experiences" class="px-4 py-2 text-sm font-semibold text-bark/80 hover:text-jungle transition">Experiences</a>
+          <a href="#dining" class="px-4 py-2 text-sm font-semibold text-bark/80 hover:text-jungle transition">Dining</a>
+          <a href="#facilities" class="px-4 py-2 text-sm font-semibold text-bark/80 hover:text-jungle transition">Facilities</a>
+          <a href="#conservation" class="px-4 py-2 text-sm font-semibold text-bark/80 hover:text-jungle transition">Conservation</a>
+          <a href="#contact" class="px-4 py-2 text-sm font-semibold text-bark/80 hover:text-jungle transition">Contact</a>
+        </div>
+
+        <div class="hidden md:flex items-center gap-2">
+          <button onclick="openEnquiry()" class="px-5 py-2 rounded-full border border-gold text-gold font-semibold tracking-wide hover:bg-gold hover:text-jungle transition">
+            Enquiry
+          </button>
+          <button onclick="openBooking()" class="px-5 py-2 rounded-full bg-gold text-jungle font-semibold tracking-wide hover:bg-goldDeep hover:text-white transition shadow-soft">
+            Book Now
+          </button>
+        </div>
+
+        <button class="md:hidden text-jungle" onclick="toggleMobileMenu()"><i class="fa-solid fa-bars text-xl"></i></button>
+      </div>
+    </div>
+
+    <div id="mobileMenu" class="hidden md:hidden border-t border-dunes bg-white">
+      <div class="px-4 py-3 grid gap-1 text-bark/90 font-medium">
+        <a href="#overview" class="py-2">Overview</a>
+        <a href="#rooms" class="py-2">Rooms</a>
+        <a href="#experiences" class="py-2">Experiences</a>
+        <a href="#dining" class="py-2">Dining</a>
+        <a href="#facilities" class="py-2">Facilities</a>
+        <a href="#conservation" class="py-2">Conservation</a>
+        <a href="#contact" class="py-2">Contact</a>
+        <div class="pt-3 grid grid-cols-2 gap-3">
+          <button onclick="openEnquiry()" class="px-4 py-2 rounded-full border border-gold text-gold font-semibold">Enquiry</button>
+          <button onclick="openBooking()" class="px-4 py-2 rounded-full bg-gold text-jungle font-semibold">Book</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <header class="relative">
+    <div class="relative h-[82vh] min-h-[560px] bg-leaf-noise bg-cover bg-center">
+      <div class="absolute inset-0 bg-gradient-to-b from-jungle/70 via-jungle/55 to-jungle/70"></div>
+      <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/asfalt-dark.png')]"></div>
+      
+      </div>
+    
+  </header>
+  
+    <section class="hero-gradient py-8 flex items-center justify-center text-white px-4 bg-white">
+    <div class="max-w-5xl mx-auto text-center">
+      <div class="inline-flex items-center gap-1 bg-gold/100 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
+        <div class="rating-stars flex gap-1 ">
+          <i class="fas fa-star text-sm"></i>
+          <i class="fas fa-star text-sm"></i>
+          <i class="fas fa-star text-sm"></i>
+          <i class="fas fa-star text-sm"></i>
+          <i class="fas fa-star text-sm"></i>
+        </div>
+        <span class="text-sm font-semibold ml-2">(4.8/5) • 892 reviews</span>
+      </div>
+
+      <h1 class="playfair text-5xl md:text-7xl font-bold mb-6 text-jungle">Tadoba Safari Stay Resort</h1>
+      <p class="text-xl md:text-2xl font-light mb-8 max-w-3xl mx-auto leading-relaxed text-black">
+        A wild escape into India's premier tiger reserve, where luxury meets untamed wilderness
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+        <button onclick="openBookingModal()" class="px-8 py-4 bg-gradient-to-r from-gold to-goldDeep text-white font-bold rounded-lg hover:shadow-luxe transition text-lg">
+          <i class="fas fa-calendar-check mr-2"></i>Reserve Your Stay
+        </button>
+        <a href="#rooms" class="px-8 py-4 border-2 border-gold/100 text-gold/100 font-bold rounded-lg hover:bg-white hover:text-bark transition text-lg">
+          <i class="fas fa-home mr-2"></i>Explore Rooms
+        </a>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto text-black">
+        <div class="text-center">
+          <div class="playfair text-3xl font-bold text-gold mb-1">625</div>
+          <div class="text-sm opacity-90">sq km Reserve</div>
+        </div>
+        <div class="text-center">
+          <div class="playfair text-3xl font-bold text-gold mb-1">60+</div>
+          <div class="text-sm opacity-90">Tiger Sightings</div>
+        </div>
+        <div class="text-center">
+          <div class="playfair text-3xl font-bold text-gold mb-1">200+</div>
+          <div class="text-sm opacity-90">Bird Species</div>
+        </div>
+        <div class="text-center">
+          <div class="playfair text-3xl font-bold text-gold mb-1">12:00</div>
+          <div class="text-sm opacity-90">PM Check-in</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="overview" class="py-20 bg-sand">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div class="fade-up">
+          <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?q=80&w=1200&auto=format&fit=crop" class="rounded-2xl shadow-luxe" alt="Tadoba Landscape">
+        </div>
+        <div class="fade-up">
+          <h2 class="playfair text-4xl md:text-5xl font-bold text-jungle">Welcome to Tadoba</h2>
+          <p class="mt-5 text-bark/80 text-lg leading-relaxed">Nestled beside India’s oldest national parks, Tadoba Safari Stay blends refined comfort with immersive wilderness. Wake to birdsong, venture on guided safaris, and return to hand-finished suites crafted in natural textures.</p>
+          <p class="mt-4 text-bark/80 text-lg leading-relaxed">Our ethos is responsible luxury—celebrating the forest while supporting local communities and conservation.</p>
+
+          <div class="mt-8 grid grid-cols-3 gap-5">
+            <div class="bg-white rounded-xl p-6 shadow-soft text-center">
+              <div class="playfair text-4xl font-bold text-gold">625</div>
+              <p class="text-bark/70 font-semibold mt-1 text-sm">Sq. km Reserve</p>
+            </div>
+            <div class="bg-white rounded-xl p-6 shadow-soft text-center">
+              <div class="playfair text-4xl font-bold text-gold">60+</div>
+              <p class="text-bark/70 font-semibold mt-1 text-sm">Tiger Sightings/yr</p>
+            </div>
+            <div class="bg-white rounded-xl p-6 shadow-soft text-center">
+              <div class="playfair text-4xl font-bold text-gold">300+</div>
+              <p class="text-bark/70 font-semibold mt-1 text-sm">Bird Species</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="rooms" class="py-24 bg-white relative">
+    <div class="absolute inset-0 bg-texture opacity-[0.12] pointer-events-none"></div>
+    <div class="relative max-w-7xl mx-auto px-6">
+      <div class="text-center">
+        <h2 class="playfair text-4xl md:text-5xl font-bold text-jungle">Luxurious Accommodations</h2>
+        <p class="mt-3 text-bark/70 max-w-2xl mx-auto">Handcrafted spaces with warm wood, linen, and stone—each suite a sanctuary close to the wild.</p>
+      </div>
+
+      <div class="sticky top-16 z-40 bg-white/85 backdrop-blur-sm border-b border-dunes mt-10">
+        <div class="max-w-7xl mx-auto flex flex-wrap justify-center gap-6 md:gap-10">
+          <button class="tab-btn active">Luxury Safari Tents</button>
+          <button class="tab-btn">Deluxe Cottages</button>
+          <button class="tab-btn">Premium Suites</button>
+          <button class="tab-btn">Villa Suites</button>
+        </div>
+      </div>
+
+      <div class="mt-10 grid md:grid-cols-2 gap-12">
+        <div class="panel fade-up">
+          <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?q=80&w=1200&auto=format&fit=crop" class="rounded-2xl shadow-luxe" alt="Luxury Tent">
+        </div>
+        <div class="panel fade-up">
+          <span class="inline-block mb-4 px-3 py-1 rounded-full bg-dunes text-bark/80 text-xs tracking-widest font-bold uppercase">Most Popular</span>
+          <h3 class="playfair text-3xl md:text-4xl font-bold text-jungle">Luxury Safari Tents</h3>
+          <p class="mt-4 text-bark/80 leading-relaxed">Premium canvas tents with en-suite baths, climate control, and private decks overlooking the forest. Feather-soft bedding, artisanal wood, and brass details define discreet elegance.</p>
+          <ul class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-2 text-bark/80">
+            <li><i class="fa-solid fa-check text-gold mr-2"></i>Queen bed / Egyptian cotton</li>
+            <li><i class="fa-solid fa-check text-gold mr-2"></i>Ensuite with hot water</li>
+            <li><i class="fa-solid fa-check text-gold mr-2"></i>Climate control & AC</li>
+            <li><i class="fa-solid fa-check text-gold mr-2"></i>Private verandah</li>
+            <li><i class="fa-solid fa-check text-gold mr-2"></i>Curated toiletries</li>
+            <li><i class="fa-solid fa-check text-gold mr-2"></i>Complimentary Wi-Fi</li>
+          </ul>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <button onclick="openBooking()" class="px-6 py-3 rounded-full bg-gold text-jungle font-semibold hover:bg-goldDeep hover:text-white transition">Book — ₹18,999</button>
+            <button class="px-6 py-3 rounded-full border border-jungle text-jungle font-semibold hover:bg-jungle hover:text-sand transition">View Gallery</button>
+          </div>
+        </div>
+
+        <div class="panel fade-up hidden">
+          <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1200&auto=format&fit=crop" class="rounded-2xl shadow-luxe" alt="Deluxe Cottage">
+        </div>
+        <div class="panel fade-up hidden">
+          <span class="inline-block mb-4 px-3 py-1 rounded-full bg-dunes text-bark/80 text-xs tracking-widest font-bold uppercase">Family Friendly</span>
+          <h3 class="playfair text-3xl md:text-4xl font-bold text-jungle">Deluxe Cottages</h3>
+          <p class="mt-4 text-bark/80 leading-relaxed">Spacious cottages with separate living areas and garden terraces—timeless comfort for families and small groups.</p>
+          <ul class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-2 text-bark/80">
+            <li><i class="fa-solid fa-check text-gold mr-2"></i>450 sq ft plan</li>
+            <li><i class="fa-solid fa-check text-gold mr-2"></i>Living + bedroom</li>
+            <li><i class="fa-solid fa-check text-gold mr-2"></i>Rain shower bath</li>
+            <li><i class="fa-solid fa-check text-gold mr-2"></i>Private terrace</li>
+            <li><i class="fa-solid fa-check text-gold mr-2"></i>Minibar & TV</li>
+            <li><i class="fa-solid fa-check text-gold mr-2"></i>Turndown service</li>
+          </ul>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <button onclick="openBooking()" class="px-6 py-3 rounded-full bg-gold text-jungle font-semibold hover:bg-goldDeep hover:text-white transition">Book — ₹24,999</button>
+            <button class="px-6 py-3 rounded-full border border-jungle text-jungle font-semibold hover:bg-jungle hover:text-sand transition">View Gallery</button>
+          </div>
+        </div>
+
+        <div class="panel fade-up hidden">
+          <img src="https://images.unsplash.com/photo-1578674387457-fbb4587205c7?q=80&w=1200&auto=format&fit=crop" class="rounded-2xl shadow-luxe" alt="Premium Suite">
+        </div>
+        <div class="panel fade-up hidden">
+          <span class="inline-block mb-4 px-3 py-1 rounded-full bg-dunes text-bark/80 text-xs tracking-widest font-bold uppercase">Premium Luxury</span>
+          <h3 class="playfair text-3xl md:text-4xl font-bold text-jungle">Premium Suites</h3>
+          <p class="mt-4 text-bark/80 leading-relaxed">Expansive suites with lounges, spa-bathrooms, and bespoke details—perfect for discerning travelers.</p>
+          <ul class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-2 text-bark/80">
+            <li><i class="fa-solid fa-check text-gold mr-2"></i>600+ sq ft layout</li>
+            <li><i class="fa-solid fa-check text-gold mr-2"></i>King master</li>
+            <li><i class="fa-solid fa-check text-gold mr-2"></i>Lounge & dining</li>
+            <li><i class="fa-solid fa-check text-gold mr-2"></i>Jacuzzi bath</li>
+            <li><i class="fa-solid fa-check text-gold mr-2"></i>Private plunge</li>
+            <li><i class="fa-solid fa-check text-gold mr-2"></i>VIP concierge</li>
+          </ul>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <button onclick="openBooking()" class="px-6 py-3 rounded-full bg-gold text-jungle font-semibold hover:bg-goldDeep hover:text-white transition">Book — ₹35,999</button>
+            <button class="px-6 py-3 rounded-full border border-jungle text-jungle font-semibold hover:bg-jungle hover:text-sand transition">View Gallery</button>
+          </div>
+        </div>
+
+        <div class="panel fade-up hidden">
+          <img src="https://images.unsplash.com/photo-1571645662833-f53e330b1435?q=80&w=1200&auto=format&fit=crop" class="rounded-2xl shadow-luxe" alt="Villa Suite">
+        </div>
+        <div class="panel fade-up hidden">
+          <span class="inline-block mb-4 px-3 py-1 rounded-full bg-dunes text-bark/80 text-xs tracking-widest font-bold uppercase">Ultra Luxury</span>
+          <h3 class="playfair text-3xl md:text-4xl font-bold text-jungle">Exclusive Villa Suites</h3>
+          <p class="mt-4 text-bark/80 leading-relaxed">Standalone villas with private pools, in-villa dining, and absolute seclusion—our pinnacle of luxury.</p>
+          <ul class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-2 text-bark/80">
+            <li><i class="fa-solid fa-check text-gold mr-2"></i>1000+ sq ft plan</li>
+            <li><i class="fa-solid fa-check text-gold mr-2"></i>Infinity pool</li>
+            <li><i class="fa-solid fa-check text-gold mr-2"></i>Butler & chef</li>
+            <li><i class="fa-solid fa-check text-gold mr-2"></i>Private dining</li>
+            <li><i class="fa-solid fa-check text-gold mr-2"></i>Dedicated guide</li>
+            <li><i class="fa-solid fa-check text-gold mr-2"></i>Spa rituals</li>
+          </ul>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <button onclick="openBooking()" class="px-6 py-3 rounded-full bg-gold text-jungle font-semibold hover:bg-goldDeep hover:text-white transition">Book — ₹49,999</button>
+            <button class="px-6 py-3 rounded-full border border-jungle text-jungle font-semibold hover:bg-jungle hover:text-sand transition">View Gallery</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experiences" class="py-24 bg-gradient-to-b from-sand to-white relative">
+    <div class="absolute inset-0 bg-leaf-overlay bg-cover bg-center opacity-[0.06] pointer-events-none"></div>
+    <div class="relative max-w-7xl mx-auto px-6">
+      <div class="text-center">
+        <h2 class="playfair text-4xl md:text-5xl font-bold text-jungle">Unforgettable Experiences</h2>
+        <p class="mt-3 text-bark/70 max-w-2xl mx-auto">Curated adventures guided by expert naturalists—crafted for intimacy and awe.</p>
+      </div>
+
+      <div class="mt-12 grid md:grid-cols-3 gap-8">
+        <div class="bg-white rounded-2xl overflow-hidden shadow-soft card-hover fade-up">
+          <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1000&auto=format&fit=crop" class="h-48 w-full object-cover" alt="Morning Safari">
+          <div class="p-8">
+            <h3 class="text-2xl font-bold text-jungle"><i class="fa-solid fa-sun mr-3 text-gold"></i>Morning Safari</h3>
+            <p class="mt-3 text-bark/80">Set off at first light. Track tigers and observe the forest waking up—our most photographed safari.</p>
+            <ul class="mt-4 text-sm text-bark/80 space-y-1">
+              <li><i class="fa-solid fa-check text-gold mr-2"></i>4–5 hours · 6 guests</li>
+              <li><i class="fa-solid fa-check text-gold mr-2"></i>Expert naturalist</li>
+              <li><i class="fa-solid fa-check text-gold mr-2"></i>Best light 6–11 AM</li>
+            </ul>
+            <button onclick="openEnquiry()" class="mt-6 w-full py-2 rounded-full bg-jungle text-sand font-semibold hover:bg-moss transition">Enquire</button>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl overflow-hidden shadow-soft card-hover fade-up">
+          <img src="https://images.unsplash.com/photo-1454391304352-2bf4678b1a7a?q=80&w=1000&auto=format&fit=crop" class="h-48 w-full object-cover" alt="Evening Safari">
+          <div class="p-8">
+            <h3 class="text-2xl font-bold text-jungle"><i class="fa-solid fa-moon mr-3 text-gold"></i>Evening Safari</h3>
+            <p class="mt-3 text-bark/80">Golden hours to twilight—watch the forest transition and predators stir under vivid skies.</p>
+            <ul class="mt-4 text-sm text-bark/80 space-y-1">
+              <li><i class="fa-solid fa-check text-gold mr-2"></i>4–5 hours · small groups</li>
+              <li><i class="fa-solid fa-check text-gold mr-2"></i>Night optics provided</li>
+              <li><i class="fa-solid fa-check text-gold mr-2"></i>Best 3–8 PM</li>
+            </ul>
+            <button onclick="openEnquiry()" class="mt-6 w-full py-2 rounded-full bg-jungle text-sand font-semibold hover:bg-moss transition">Enquire</button>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl overflow-hidden shadow-soft card-hover fade-up">
+          <img src="https://images.unsplash.com/photo-1571896349842-64e89b8bca66?q=80&w=1000&auto=format&fit=crop" class="h-48 w-full object-cover" alt="Photography Tour">
+          <div class="p-8">
+            <h3 class="text-2xl font-bold text-jungle"><i class="fa-solid fa-camera mr-3 text-gold"></i>Photography Tour</h3>
+            <p class="mt-3 text-bark/80">Positioning, patience, and ethics—shoot with mentors who know the forest intimately.</p>
+            <ul class="mt-4 text-sm text-bark/80 space-y-1">
+              <li><i class="fa-solid fa-check text-gold mr-2"></i>Pro guidance</li>
+              <li><i class="fa-solid fa-check text-gold mr-2"></i>Multi-spot itineraries</li>
+              <li><i class="fa-solid fa-check text-gold mr-2"></i>Post-process workshop</li>
+            </ul>
+            <button onclick="openEnquiry()" class="mt-6 w-full py-2 rounded-full bg-jungle text-sand font-semibold hover:bg-moss transition">Enquire</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section id="facilities" class="py-24 bg-gradient-to-b from-sand to-white">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center">
+        <h2 class="playfair text-4xl md:text-5xl font-bold text-jungle">World-Class Facilities</h2>
+        <p class="mt-3 text-bark/70 max-w-2xl mx-auto">Amenities that anticipate your needs—delivered with warmth and precision.</p>
+      </div>
+
+      <div class="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="bg-white rounded-2xl p-8 shadow-soft fade-up">
+          <div class="text-4xl text-gold"><i class="fa-solid fa-spa"></i></div>
+          <h3 class="text-2xl font-bold text-jungle mt-3">Spa & Wellness</h3>
+          <p class="text-bark/80 mt-2">Ayurvedic rituals, deep tissue, and guided meditation.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl p-8 shadow-soft fade-up">
+          <div class="text-4xl text-gold"><i class="fa-solid fa-swimming-pool"></i></div>
+          <h3 class="text-2xl font-bold text-jungle mt-3">Heated Pool</h3>
+          <p class="text-bark/80 mt-2">Infinity-edge pool with forest views and poolside service.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl p-8 shadow-soft fade-up">
+          <div class="text-4xl text-gold"><i class="fa-solid fa-book"></i></div>
+          <h3 class="text-2xl font-bold text-jungle mt-3">Library Lounge</h3>
+          <p class="text-bark/80 mt-2">Wildlife volumes, board games, and a quiet fireplace corner.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl p-8 shadow-soft fade-up">
+          <div class="text-4xl text-gold"><i class="fa-solid fa-wifi"></i></div>
+          <h3 class="text-2xl font-bold text-jungle mt-3">Wi-Fi & Tech</h3>
+          <p class="text-bark/80 mt-2">High-speed connectivity and universal charging stations.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl p-8 shadow-soft fade-up">
+          <div class="text-4xl text-gold"><i class="fa-solid fa-concierge-bell"></i></div>
+          <h3 class="text-2xl font-bold text-jungle mt-3">24/7 Concierge</h3>
+          <p class="text-bark/80 mt-2">Itinerary design, transfers, and bespoke experiences.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl p-8 shadow-soft fade-up">
+          <div class="text-4xl text-gold"><i class="fa-solid fa-car"></i></div>
+          <h3 class="text-2xl font-bold text-jungle mt-3">Transport</h3>
+          <p class="text-bark/80 mt-2">Safari vehicles, airport pickups, and chauffeured tours.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="conservation" class="py-24 bg-jungle text-sand relative">
+    <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/green-dust-and-scratches.png')] opacity-20"></div>
+    <div class="relative max-w-7xl mx-auto px-6 text-center">
+      <h2 class="playfair text-4xl md:text-5xl font-bold">Conservation & Sustainability</h2>
+      <p class="mt-4 text-sand/90 max-w-3xl mx-auto">Your stay directly supports habitat protection and community initiatives—luxury with purpose.</p>
+
+      <div class="mt-10 grid md:grid-cols-4 gap-6">
+        <div class="bg-white/10 rounded-xl p-8 backdrop-blur">
+          <div class="text-3xl mb-3"><i class="fa-solid fa-leaf"></i></div>
+          <h3 class="font-bold text-lg">Eco-Operations</h3>
+          <p class="text-sm text-sand/90 mt-1">Solar, waste management, and low-impact design.</p>
+        </div>
+        <div class="bg-white/10 rounded-xl p-8 backdrop-blur">
+          <div class="text-3xl mb-3"><i class="fa-solid fa-water"></i></div>
+          <h3 class="font-bold text-lg">Water Care</h3>
+          <p class="text-sm text-sand/90 mt-1">Rainwater harvesting & efficient usage.</p>
+        </div>
+        <div class="bg-white/10 rounded-xl p-8 backdrop-blur">
+          <div class="text-3xl mb-3"><i class="fa-solid fa-tree"></i></div>
+          <h3 class="font-bold text-lg">Forest Support</h3>
+          <p class="text-sm text-sand/90 mt-1">Anti-poaching & habitat restoration.</p>
+        </div>
+        <div class="bg-white/10 rounded-xl p-8 backdrop-blur">
+          <div class="text-3xl mb-3"><i class="fa-solid fa-heart"></i></div>
+          <h3 class="font-bold text-lg">Community</h3>
+          <p class="text-sm text-sand/90 mt-1">Local employment & artisan partnerships.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center">
+        <h2 class="playfair text-4xl md:text-5xl font-bold text-jungle">Get In Touch</h2>
+        <p class="mt-3 text-bark/70 max-w-2xl mx-auto">We’re here to craft your perfect Tadoba journey.</p>
+      </div>
+
+      <div class="mt-10 grid md:grid-cols-3 gap-8">
+        <div class="text-center bg-sand rounded-2xl p-8">
+          <div class="text-4xl text-gold"><i class="fa-solid fa-map-marker-alt"></i></div>
+          <h3 class="font-bold text-jungle text-lg mt-2">Address</h3>
+          <p class="text-bark/80 mt-1">Tadoba-Andhari Tiger Reserve<br>Maharashtra 441408, India</p>
+        </div>
+        <div class="text-center bg-sand rounded-2xl p-8">
+          <div class="text-4xl text-gold"><i class="fa-solid fa-phone"></i></div>
+          <h3 class="font-bold text-jungle text-lg mt-2">Contact</h3>
+          <p class="text-bark/80 mt-1">+91 90962 33360<br>+91 90963 33020</p>
+        </div>
+        <div class="text-center bg-sand rounded-2xl p-8">
+          <div class="text-4xl text-gold"><i class="fa-solid fa-envelope"></i></div>
+          <h3 class="font-bold text-jungle text-lg mt-2">Email</h3>
+          <p class="text-bark/80 mt-1">info@naturessprout.com<br>bookings@naturessprout.com</p>
+        </div>
+      </div>
+
+      <div class="mt-12 bg-dunes rounded-2xl p-8 md:p-12 shadow-soft">
+        <form onsubmit="handleContact(event)" class="grid md:grid-cols-2 gap-6">
+          <div>
+            <label class="block font-bold text-jungle mb-2">Full Name *</label>
+            <input type="text" required class="w-full px-5 py-3 rounded-lg border border-sand focus:outline-none focus:ring-2 focus:ring-gold bg-white">
+          </div>
+          <div>
+            <label class="block font-bold text-jungle mb-2">Email *</label>
+            <input type="email" required class="w-full px-5 py-3 rounded-lg border border-sand focus:outline-none focus:ring-2 focus:ring-gold bg-white">
+          </div>
+          <div>
+            <label class="block font-bold text-jungle mb-2">Phone *</label>
+            <input type="tel" required class="w-full px-5 py-3 rounded-lg border border-sand focus:outline-none focus:ring-2 focus:ring-gold bg-white">
+          </div>
+          <div>
+            <label class="block font-bold text-jungle mb-2">Subject *</label>
+            <input type="text" required class="w-full px-5 py-3 rounded-lg border border-sand focus:outline-none focus:ring-2 focus:ring-gold bg-white">
+          </div>
+          <div class="md:col-span-2">
+            <label class="block font-bold text-jungle mb-2">Message *</label>
+            <textarea rows="6" required class="w-full px-5 py-3 rounded-lg border border-sand focus:outline-none focus:ring-2 focus:ring-gold bg-white"></textarea>
+          </div>
+          <div class="md:col-span-2 flex flex-wrap gap-3">
+            <button type="submit" class="px-8 py-3 rounded-full bg-jungle text-sand font-semibold hover:bg-moss transition">Send Message</button>
+            <button type="reset" class="px-8 py-3 rounded-full border border-jungle text-jungle font-semibold hover:bg-jungle hover:text-sand transition">Clear</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-bark text-sand/90 pt-16 pb-10">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid md:grid-cols-4 gap-10">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="w-10 h-10 rounded-full bg-gradient-to-br from-jungle to-moss grid place-items-center"><i class="fa-solid fa-paw text-sand"></i></span>
+            <div>
+              <div class="playfair text-xl font-bold">Tadoba Safari Stay</div>
+              <div class="text-[11px] uppercase tracking-[0.2em] text-sand/70">by Nature’s Sprout</div>
+            </div>
+          </div>
+          <p class="text-sm mt-3">Luxury wilderness experiences in the heart of Tadoba. Crafted stays, respectful of nature.</p>
+        </div>
+        <div>
+          <h4 class="font-bold text-white text-lg">Navigation</h4>
+          <ul class="mt-3 space-y-2 text-sm">
+            <li><a href="#overview" class="hover:text-gold transition">Overview</a></li>
+            <li><a href="#rooms" class="hover:text-gold transition">Rooms</a></li>
+            <li><a href="#experiences" class="hover:text-gold transition">Experiences</a></li>
+            <li><a href="#dining" class="hover:text-gold transition">Dining</a></li>
+            <li><a href="#contact" class="hover:text-gold transition">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold text-white text-lg">Follow Us</h4>
+          <div class="mt-3 flex gap-3">
+            <a href="#" class="w-10 h-10 rounded-full bg-white/10 grid place-items-center hover:bg-gold hover:text-jungle transition"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="w-10 h-10 rounded-full bg-white/10 grid place-items-center hover:bg-gold hover:text-jungle transition"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="w-10 h-10 rounded-full bg-white/10 grid place-items-center hover:bg-gold hover:text-jungle transition"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4 class="font-bold text-white text-lg">Newsletter</h4>
+          <p class="text-sm mt-3">Get offers and wildlife notes from our naturalists.</p>
+          <div class="mt-3 flex">
+            <input type="email" placeholder="Your email" class="px-4 py-2 rounded-l bg-white text-bark text-sm w-full focus:outline-none">
+            <button class="bg-gold px-4 py-2 rounded-r text-jungle font-bold hover:bg-goldDeep hover:text-white transition"><i class="fa-solid fa-arrow-right"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="mt-10 border-t border-white/10 pt-6 text-center text-xs">
+        © <span id="year"></span> Tadoba Safari Stay — by Nature’s Sprout. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <div id="bookingModal" class="modal">
+    <div class="bg-white w-[92%] max-w-2xl rounded-2xl p-8 md:p-10 shadow-luxe">
+      <div class="flex justify-between items-start">
+        <h3 class="playfair text-3xl font-bold text-jungle">Reserve Your Experience</h3>
+        <button onclick="closeBooking()" class="text-bark/50 hover:text-jungle text-2xl leading-none">&times;</button>
+      </div>
+      <form onsubmit="handleBooking(event)" class="mt-6 grid md:grid-cols-2 gap-5">
+        <input placeholder="Full Name *" required class="px-4 py-3 rounded-lg border border-sand focus:outline-none focus:ring-2 focus:ring-gold bg-white">
+        <input placeholder="Email *" type="email" required class="px-4 py-3 rounded-lg border border-sand focus:outline-none focus:ring-2 focus:ring-gold bg-white">
+        <input placeholder="Phone *" type="tel" required class="px-4 py-3 rounded-lg border border-sand focus:outline-none focus:ring-2 focus:ring-gold bg-white">
+        <input placeholder="Guests *" type="number" min="1" max="10" required class="px-4 py-3 rounded-lg border border-sand focus:outline-none focus:ring-2 focus:ring-gold bg-white">
+        <input placeholder="Check-in *" type="date" required class="px-4 py-3 rounded-lg border border-sand focus:outline-none focus:ring-2 focus:ring-gold bg-white">
+        <input placeholder="Check-out *" type="date" required class="px-4 py-3 rounded-lg border border-sand focus:outline-none focus:ring-2 focus:ring-gold bg-white">
+        <select required class="md:col-span-2 px-4 py-3 rounded-lg border border-sand focus:outline-none focus:ring-2 focus:ring-gold bg-white">
+          <option value="">Select Room Type</option>
+          <option>Luxury Safari Tents — ₹18,999/night</option>
+          <option>Deluxe Cottages — ₹24,999/night</option>
+          <option>Premium Suites — ₹35,999/night</option>
+          <option>Villa Suites — ₹49,999/night</option>
+        </select>
+        <textarea rows="3" placeholder="Special Requests" class="md:col-span-2 px-4 py-3 rounded-lg border border-sand focus:outline-none focus:ring-2 focus:ring-gold bg-white"></textarea>
+        <button type="submit" class="md:col-span-2 mt-2 px-6 py-3 rounded-full bg-gold text-jungle font-semibold hover:bg-goldDeep hover:text-white transition">Confirm Reservation</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="enquiryModal" class="modal">
+    <div class="bg-white w-[92%] max-w-2xl rounded-2xl p-8 md:p-10 shadow-luxe">
+      <div class="flex justify-between items-start">
+        <h3 class="playfair text-3xl font-bold text-jungle">Send Your Enquiry</h3>
+        <button onclick="closeEnquiry()" class="text-bark/50 hover:text-jungle text-2xl leading-none">&times;</button>
+      </div>
+      <form onsubmit="handleEnquiry(event)" class="mt-6 grid md:grid-cols-2 gap-5">
+        <input placeholder="Full Name *" required class="px-4 py-3 rounded-lg border border-sand focus:outline-none focus:ring-2 focus:ring-gold bg-white">
+        <input placeholder="Email *" type="email" required class="px-4 py-3 rounded-lg border border-sand focus:outline-none focus:ring-2 focus:ring-gold bg-white">
+        <input placeholder="Phone *" type="tel" required class="px-4 py-3 rounded-lg border border-sand focus:outline-none focus:ring-2 focus:ring-gold bg-white">
+        <input placeholder="Subject *" required class="px-4 py-3 rounded-lg border border-sand focus:outline-none focus:ring-2 focus:ring-gold bg-white">
+        <textarea rows="4" placeholder="Your message..." class="md:col-span-2 px-4 py-3 rounded-lg border border-sand focus:outline-none focus:ring-2 focus:ring-gold bg-white" required></textarea>
+        <button type="submit" class="md:col-span-2 mt-2 px-6 py-3 rounded-full bg-jungle text-sand font-semibold hover:bg-moss transition">Send Enquiry</button>
+      </form>
+    </div>
+  </div>
+
+  <button class="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-gold text-jungle shadow-soft grid place-items-center hover:bg-goldDeep hover:text-white transition" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Scroll to top">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
+
+  <script>
+    const elsObserve = document.querySelectorAll('.fade-up');
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('show'); io.unobserve(e.target); }});
+    },{ threshold: .12 });
+    elsObserve.forEach(el=>io.observe(el));
+
+    // Mobile menu
+    function toggleMobileMenu(){
+      document.getElementById('mobileMenu').classList.toggle('hidden');
+    }
+
+    // Tabs
+    const tabButtons = Array.from(document.querySelectorAll('#rooms .tab-btn'));
+    const panels = Array.from(document.querySelectorAll('#rooms .panel'));
+    tabButtons.forEach((btn,i)=>{
+      btn.addEventListener('click', ()=>{
+        tabButtons.forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        panels.forEach(p=>p.classList.add('hidden'));
+        panels[i*2]?.classList.remove('hidden');
+        panels[i*2+1]?.classList.remove('hidden');
+        
+        // --- This script is slightly modified to prevent a layout jump with the new sticky bar ---
+        // We scroll to the main panel's parent container instead of the panel itself
+        // to account for the sticky bar's height.
+        const panelContainer = panels[i*2]?.closest('.grid');
+        if (panelContainer) {
+          // Get position of the "#rooms" section title
+          const title = document.querySelector('#rooms .text-center');
+          const titleTop = title.getBoundingClientRect().top + window.scrollY - 80; // 80px offset for nav+tab bar
+          
+          // Only scroll if we are *below* the title
+          if(window.scrollY > titleTop) {
+             window.scrollTo({top: titleTop, behavior: 'smooth'});
+          }
+        }
+      });
+    });
+
+    // Modals
+    function openBooking(){ document.getElementById('bookingModal').classList.add('show'); document.body.style.overflow='hidden'; }
+    function closeBooking(){ document.getElementById('bookingModal').classList.remove('show'); document.body.style.overflow='auto'; }
+    function openEnquiry(){ document.getElementById('enquiryModal').classList.add('show'); document.body.style.overflow='hidden'; }
+    function closeEnquiry(){ document.getElementById('enquiryModal').classList.remove('show'); document.body.style.overflow='auto'; }
+    window.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ closeBooking(); closeEnquiry(); }});
+    window.addEventListener('click', (e)=>{
+      if(e.target.id==='bookingModal') closeBooking();
+      if(e.target.id==='enquiryModal') closeEnquiry();
+    });
+
+    // Forms
+    function handleBooking(e){ e.preventDefault(); alert('Thank you! Our reservations team will reach out shortly.'); closeBooking(); e.target.reset(); }
+    function handleEnquiry(e){ e.preventDefault(); alert('Thanks for your enquiry! We will respond within 24 hours.'); closeEnquiry(); e.target.reset(); }
+    function handleContact(e){ e.preventDefault(); alert('Thanks for contacting us! We will respond shortly.'); e.target.reset(); }
+
+    // Current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Smooth anchors (close mobile after)
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        const id = a.getAttribute('href');
+        if(id.length>1){
+          e.preventDefault();
+          const t = document.querySelector(id);
+          if(t){ 
+            // Add offset for sticky nav
+            const yOffset = -80; 
+            const y = t.getBoundingClientRect().top + window.scrollY + yOffset;
+            window.scrollTo({top: y, behavior: 'smooth'});
+            document.getElementById('mobileMenu')?.classList.add('hidden'); 
+          }
+        }
+      })
+    });
+  </script>
+</body>
+</html>
